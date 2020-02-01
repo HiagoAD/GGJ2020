@@ -17,7 +17,7 @@ public class Player : MonoBehaviour
         get; private set;
     }
 
-    private Enemy target;
+    private EnemyController target;
 
     public void Attack(int direction)
     {
@@ -25,7 +25,7 @@ public class Player : MonoBehaviour
 
         Attacking = true;
 
-        Enemy enemy = GameManager.Instance.GetEnemyTarget(transform.position, direction);
+        EnemyController enemy = GameManager.Instance.GetEnemyTarget(transform.position, direction);
         
         if(enemy)
         {
@@ -45,7 +45,7 @@ public class Player : MonoBehaviour
         }
     }
 
-    private void attackOnRange(Enemy enemy)
+    private void attackOnRange(EnemyController enemy)
     {
         transform.DOMove(enemy.transform.position, correctAttackTime).onComplete = () =>
         {
@@ -66,7 +66,7 @@ public class Player : MonoBehaviour
     {
         if (Attacking && target && collider.gameObject == target.gameObject)
         {
-            GameManager.Instance.RemoveEnemy(target);
+            collider.gameObject.GetComponent<EnemyController>().Hit(1);
             target = null;
             Attacking = false;
         } else

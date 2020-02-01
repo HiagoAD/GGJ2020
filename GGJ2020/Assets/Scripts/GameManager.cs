@@ -13,8 +13,8 @@ public class GameManager : MonoBehaviour
     Player player = null;
 
 
-    List<Enemy> enemiesInstancesLeft = new List<Enemy>();
-    List<Enemy> enemiesInstancesRight = new List<Enemy>();
+    List<EnemyController> enemiesInstancesLeft = new List<EnemyController>();
+    List<EnemyController> enemiesInstancesRight = new List<EnemyController>();
 
     private void Awake()
     {
@@ -32,7 +32,7 @@ public class GameManager : MonoBehaviour
         return player;
     }
 
-    public void RegistryEnemy(Enemy enemy)
+    public void RegistryEnemy(EnemyController enemy)
     {
         if(enemy.transform.position.x > player.transform.position.x)
         {
@@ -43,7 +43,7 @@ public class GameManager : MonoBehaviour
         }
     }
 
-    public void RemoveEnemy(Enemy enemy)
+    public void RemoveEnemy(EnemyController enemy)
     {
         if (enemy.transform.position.x > player.transform.position.x)
         {
@@ -53,13 +53,11 @@ public class GameManager : MonoBehaviour
         {
             enemiesInstancesLeft.Remove(enemy);
         }
-
-        Destroy(enemy.gameObject);
     }
 
-    public Enemy GetEnemyTarget(Vector3 position, int direction)
+    public EnemyController GetEnemyTarget(Vector3 position, int direction)
     {
-        List<Enemy> enemies;
+        List<EnemyController> enemies;
         if(direction > 0)
         {
             enemies = enemiesInstancesRight;

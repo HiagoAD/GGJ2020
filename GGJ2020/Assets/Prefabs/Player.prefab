@@ -15,7 +15,7 @@ GameObject:
   - component: {fileID: 249559679001545496}
   m_Layer: 0
   m_Name: Player
-  m_TagString: Untagged
+  m_TagString: Player
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -96,7 +96,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 654beb03f69c1a24e86234dfbdf49a95, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  attackThreshold: 1.5
+  attackThreshold: 5
   correctAttackTime: 0.5
   wrongAttackTime: 1
 --- !u!58 &4759152305810837150
