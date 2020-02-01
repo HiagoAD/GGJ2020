@@ -10,10 +10,14 @@ public class SpawnController : MonoBehaviour
         public GameObject main;
         [HideInInspector] public List<GameObject> buffer;
     }
+
     [SerializeField] Enemy[] enemies;
-    
+
+    private float lenght;
+
     private void Awake()
     {
+        lenght = transform.localScale.y/2;
         //initialize all the list of enemies
         for (int i = 0; i < enemies.Length; i++)
         {
@@ -38,17 +42,19 @@ public class SpawnController : MonoBehaviour
 
     private GameObject TryGetEnemy(int id)
     {
+        float offsetPostion = Random.Range(-lenght, lenght);
+        
         foreach (var enemy in enemies[id].buffer)
         {
             var controller = enemy.GetComponent<EnemyController>();
             if(!controller.Alive)
             {
-                controller.Restart();
+                controller.Restart(offsetPostion);
                 return enemy;
             }
         }
 
-        GameObject spawned = Instantiate(enemies[id].main, transform.position, Quaternion.identity);
+        GameObject spawned = Instantiate(enemies[id].main, transform.position + Vector3.up*offsetPostion, Quaternion.identity);
 
         spawned.GetComponent<EnemyController>().Init(this, id);
 
