@@ -94,4 +94,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b192ad38540696e4ea59a0e8fa63417b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  hpMax: 3
   moveSpeed: 5
+  distanceToFollowPlayer: 3

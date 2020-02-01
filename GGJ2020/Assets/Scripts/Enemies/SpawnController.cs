@@ -11,13 +11,25 @@ public class SpawnController : MonoBehaviour
         [HideInInspector] public List<GameObject> buffer;
     }
 
-    [SerializeField] Enemy[] enemies;
+    [SerializeField] float spawnDelay = 1;
+
+    [SerializeField] Enemy[] enemies = null;
+
+    private float spawnCount;
 
     private float lenght;
+
+    private Transform player;
 
     private void Awake()
     {
         lenght = transform.localScale.y/2;
+
+        player = GameObject.FindGameObjectWithTag("Player").GetComponent<Transform>();
+
+        if(!player)
+            Debug.LogError("MISSING PLAYER!!!");
+
         //initialize all the list of enemies
         for (int i = 0; i < enemies.Length; i++)
         {
@@ -28,8 +40,14 @@ public class SpawnController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if(Input.GetKeyDown(KeyCode.A))
+        if(spawnCount <= Time.time)
+        {
             Spawn();
+            spawnCount = Time.time + spawnDelay;
+        }
+
+        // if(Input.GetKeyDown(KeyCode.Space))
+        //     Spawn();
     }
 
     private void Spawn()
@@ -56,7 +74,7 @@ public class SpawnController : MonoBehaviour
 
         GameObject spawned = Instantiate(enemies[id].main, transform.position + Vector3.up*offsetPostion, Quaternion.identity);
 
-        spawned.GetComponent<EnemyController>().Init(this, id);
+        spawned.GetComponent<EnemyController>().Init(this, id, player);
 
         return spawned;
     }

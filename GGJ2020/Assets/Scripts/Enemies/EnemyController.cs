@@ -8,20 +8,22 @@ public class EnemyController : MonoBehaviour
     [Header ("Status")]
     [SerializeField] int hpMax = 3;
     [SerializeField] float moveSpeed = 1;
+    [SerializeField] float distanceToFollowPlayer = 3;
 
     private int hp;
-
-    private Image spawnLenght;
+    private Transform player;
+    
     private bool alive;
     private SpawnController spawner;    
     private int ID; //Verify what type this enemy is
 
     public bool Alive {get => alive;}
 
-    public void Init(SpawnController spawner, int ID)
+    public void Init(SpawnController spawner, int ID, Transform player)
     {
         this.spawner = spawner;
         this.ID = ID;
+        this.player = player;
         Reset();
     }
     
@@ -35,7 +37,13 @@ public class EnemyController : MonoBehaviour
 
     private void Behaviour()
     {
-        transform.position = Vector3.MoveTowards(transform.position, new Vector3(20,0,0), moveSpeed*Time.deltaTime);
+        if(distanceToFollowPlayer >= Vector2.Distance(transform.position, player.position))
+            transform.position = Vector3.MoveTowards(transform.position, player.position, moveSpeed*Time.deltaTime);
+        else
+        {
+            var newVec = new Vector3(player.position.x, transform.position.y, player.position.z);
+            transform.position = Vector3.MoveTowards(transform.position, newVec, moveSpeed*Time.deltaTime);
+        }
     }
 
     public void Restart(float offset)
