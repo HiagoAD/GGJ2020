@@ -13,6 +13,9 @@ public class Player : MonoBehaviour
     [SerializeField]
     private float hitKnockback;
 
+    private Vector2 startPosition;
+
+
     public bool Attacking
     {
         get; private set;
@@ -28,6 +31,8 @@ public class Player : MonoBehaviour
 
         playerAttack.SetPlayerScript(this);
         playerAttack.gameObject.SetActive(false);
+
+        startPosition = transform.position;
     }
 
 
@@ -54,6 +59,12 @@ public class Player : MonoBehaviour
             armature.animation.Play("idle");
             playerAttack.gameObject.SetActive(false);
         };
+    }
+
+    private void Start()
+    {
+        GameManager.Instance.OnRestartGame += Restart;
+        GameManager.Instance.OnGameOver += GameOver;
     }
 
     public void Attack(int direction)
@@ -106,4 +117,16 @@ public class Player : MonoBehaviour
             transform.position += Vector3.right * hitKnockback;
         }
     }
+
+    private void Restart()
+    {
+        transform.position = startPosition;
+    }
+
+    private void GameOver()
+    {
+        //call death animation
+    }
+
+
 }

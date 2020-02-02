@@ -37,11 +37,6 @@ public class ComboUI : MonoBehaviour
 
     void Update()
     {
-        if (Input.GetKeyDown(KeyCode.B))
-            GoodAnimation();
-        if (Input.GetKeyDown(KeyCode.N))
-            BadAnimation();
-
         if(!faded && fadeCount <= Time.time)
         {
             faded = true;
@@ -51,11 +46,20 @@ public class ComboUI : MonoBehaviour
 
     void OnComboChanged(int value)
     {
-        this.value.text = value.ToString();
-        if (value > lastPoint)
-            GoodAnimation();
-        else
+        if (value <= 0)
+        {
+            this.value.text = "failed";
             BadAnimation();
+        }
+        else
+        {
+            this.value.text = value.ToString();
+
+            if (value > lastPoint)
+                GoodAnimation();
+            else
+                BadAnimation();
+        }
 
         lastPoint = value;
     }

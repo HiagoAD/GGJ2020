@@ -15,6 +15,9 @@ public class EnemyController : MonoBehaviour
 
     private int hp;
     private Player player;  
+
+    
+    private bool playerDead = false;
     private int ID; //Verify what type this enemy is
     private UnityArmatureComponent armature;
 
@@ -24,6 +27,10 @@ public class EnemyController : MonoBehaviour
     {
         this.ID = ID;
         this.player = player;
+
+        GameManager.Instance.OnGameOver += GameOver;
+        GameManager.Instance.OnRestartGame += Restart;
+
         Reset();
     }
 
@@ -46,7 +53,10 @@ public class EnemyController : MonoBehaviour
 
     private void Behaviour()
     {
-        if(player.transform.position.x > transform.position.x)
+        if (playerDead)
+            return;
+
+        if (player.transform.position.x > transform.position.x)
         {
             transform.localScale = new Vector3(-Mathf.Abs(transform.localScale.x), transform.localScale.y, transform.localScale.z);
         } else if (player.transform.position.x < transform.position.x) // That's nescessary for keep the sate when the positions are the same
@@ -59,7 +69,7 @@ public class EnemyController : MonoBehaviour
         else
         {
             var newVec = new Vector3(player.transform.position.x, transform.position.y, player.transform.position.z);
-            transform.position = Vector3.MoveTowards(transform.position, newVec, moveSpeed*Time.deltaTime);
+            transform.position = Vector3.MoveTowards(transform.position, newVec, moveSpeed * Time.deltaTime);
         }
     }
 
@@ -102,10 +112,22 @@ public class EnemyController : MonoBehaviour
         hp = hpMax;
     }
 
-    private void Kill()
+    private void Kill(bool inGame = true)
     {
-        GameManager.Instance.RemoveEnemy(this);
+        GameManager.Instance.RemoveEnemy(this, inGame);
         Alive = false;
         transform.position = new Vector2 (1000, 1000);
+    }
+
+    private void GameOver()
+    {
+        playerDead = true;
+        //call animation idle
+    }
+
+    private void Restart()
+    {
+        playerDead = false;
+        Kill(false);
     }
 }

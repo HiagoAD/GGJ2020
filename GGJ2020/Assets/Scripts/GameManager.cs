@@ -5,6 +5,7 @@ using System;
 
 
 public delegate void NumbersChanged(int value);
+public delegate void GameState();
 
 public class GameManager : MonoBehaviour
 {
@@ -13,11 +14,19 @@ public class GameManager : MonoBehaviour
         get; private set;
     }
 
-    [SerializeField]
-    Player player = null;
+    [SerializeField] Player player = null;
+    [SerializeField] readonly int playerHpMax = 3;
+
+    public int maxHp { get => playerHpMax; }
+
+    private int playerHp;
 
     public NumbersChanged OnScoreChanged;
     public NumbersChanged OnComboChanged;
+    public NumbersChanged PlayerHitted;
+
+    public GameState OnGameOver;
+    public GameState OnRestartGame;
 
 
     List<EnemyController> enemiesInstances = new List<EnemyController>();
@@ -25,7 +34,6 @@ public class GameManager : MonoBehaviour
 
     int _combo = 0;
     int _score = 0;
-    int life = 3;
 
     public int Combo
     {
@@ -36,7 +44,7 @@ public class GameManager : MonoBehaviour
         set
         {
             _combo = value;
-            OnComboChanged(_combo);
+            OnComboChanged?.Invoke(_combo);
         }
     }
 
@@ -49,7 +57,7 @@ public class GameManager : MonoBehaviour
         set
         {
             _score = value;
-            OnScoreChanged(_score);
+            OnScoreChanged?.Invoke(_score);
         }
     }
 
@@ -62,6 +70,9 @@ public class GameManager : MonoBehaviour
         }
 
         Instance = this;
+
+        playerHp = playerHpMax;
+        OnRestartGame += Restart;
     }
 
     public Player GetPlayer()
@@ -74,12 +85,15 @@ public class GameManager : MonoBehaviour
         enemiesInstances.Add(enemy);
     }
 
-    public void RemoveEnemy(EnemyController enemy)
+    public void RemoveEnemy(EnemyController enemy, bool inGame = true)
     {
         enemiesInstances.Remove(enemy);
 
-        Combo++;
-        Score += enemy.Score * Combo;
+        if(inGame)
+        {
+            Combo++;
+            Score += enemy.Score * Combo;
+        }
     }
 
     public EnemyController GetEnemyTarget(Vector3 position, int direction)
@@ -105,14 +119,26 @@ public class GameManager : MonoBehaviour
     public void PlayerHit(EnemyController hitter)
     {
         Combo /= 2;
-        Debug.Log("Life " + --life);
 
         player.Hit(hitter.transform);
+        playerHp--;
+        PlayerHitted?.Invoke(playerHp);
+
+        if (playerHp == 0)
+            OnGameOver?.Invoke();
     }
 
     public void PlayerMissAttack()
     {
         Combo -= 3;
         Combo = Combo > 0 ? Combo : 0;
+        Debug.Log(Combo);
+    }
+
+    private void Restart()
+    {
+        playerHp = playerHpMax;
+        _combo = 0;
+        _score = 0;
     }
 }
