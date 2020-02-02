@@ -25,8 +25,12 @@ public class GameManager : MonoBehaviour
     public NumbersChanged OnComboChanged;
     public NumbersChanged PlayerHitted;
 
+
+    public GameState OnMainMenu;
+    public GameState OnGameStart;
     public GameState OnGameOver;
     public GameState OnRestartGame;
+    public GameState OnLeaderBoard;
 
 
     List<EnemyController> enemiesInstances = new List<EnemyController>();
@@ -73,6 +77,21 @@ public class GameManager : MonoBehaviour
 
         playerHp = playerHpMax;
         OnRestartGame += Restart;
+    }
+
+    private void Start()
+    {
+        OnMainMenu();
+    }
+
+    public void StartGame()
+    {
+        OnGameStart();
+    }
+    public void OnRestart()
+    {
+        OnRestartGame();
+        OnGameStart();
     }
 
     public Player GetPlayer()
@@ -125,7 +144,10 @@ public class GameManager : MonoBehaviour
         PlayerHitted?.Invoke(playerHp);
 
         if (playerHp == 0)
+        {
             OnGameOver?.Invoke();
+            OnLeaderBoard?.Invoke();
+        }
     }
 
     public void PlayerMissAttack()

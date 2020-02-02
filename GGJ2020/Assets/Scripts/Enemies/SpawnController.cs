@@ -15,7 +15,7 @@ public class SpawnController : MonoBehaviour
 
     [SerializeField] Enemy[] enemies = null;
 
-    private bool gameRunning;
+    private bool gameRunning = false;
 
     private float spawnCount;
 
@@ -32,8 +32,6 @@ public class SpawnController : MonoBehaviour
         if(!player)
             Debug.LogError("MISSING PLAYER!!!");
 
-        gameRunning = true;
-
         //initialize all the list of enemies
         for (int i = 0; i < enemies.Length; i++)
         {
@@ -46,6 +44,8 @@ public class SpawnController : MonoBehaviour
         player = GameManager.Instance.GetPlayer();
         GameManager.Instance.OnRestartGame += Restart;
         GameManager.Instance.OnGameOver += GameOver;
+        GameManager.Instance.OnMainMenu += GameOver;
+        GameManager.Instance.OnGameStart += Restart;
     }
 
     // Update is called once per frame
