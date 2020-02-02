@@ -1,0 +1,23 @@
+fileFormatVersion: 2
+guid: 5745150d3691f19409c56f03d1dcf3ab
+TrueTypeFontImporter:
+  externalObjects: {}
+  serializedVersion: 4
+  fontSize: 16
+  forceTextureCase: -2
+  characterSpacing: 0
+  characterPadding: 1
+  includeFontData: 1
+  fontName: Gramophone Shaded NF
+  fontNames:
+  - Gramophone Shaded NF
+  fallbackFontReferences:
+  - {fileID: 12800000, guid: b61a597d5664537478c14aa94a99bbff, type: 3}
+  customCharacters: 
+  fontRenderingMode: 0
+  ascentCalculationMode: 1
+  useLegacyBoundsCalculation: 0
+  shouldRoundAdvanceValue: 1
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

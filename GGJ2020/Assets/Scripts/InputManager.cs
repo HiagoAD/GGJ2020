@@ -5,13 +5,15 @@ using UnityEngine;
 public class InputManager : MonoBehaviour
 {
     private Player player = null;
-    private bool playerAlive = true;
+    private bool playerAlive = false;
 
     private void Start()
     {
         player = GameManager.Instance.GetPlayer();
         GameManager.Instance.OnRestartGame += Restart;
         GameManager.Instance.OnGameOver += GameOver;
+        GameManager.Instance.OnMainMenu += GameOver;
+        GameManager.Instance.OnGameStart += Restart;
     }
 
     // Update is called once per frame
@@ -27,10 +29,12 @@ public class InputManager : MonoBehaviour
             if (playerAlive)
                 player.Attack(1);
         }
-        else if(Input.GetKeyDown(KeyCode.R))
+#if UNITY_EDITOR
+        if(Input.GetKeyDown(KeyCode.R))
         {
             GameManager.Instance.OnRestartGame();
         }
+#endif
     }
 
     private void GameOver()

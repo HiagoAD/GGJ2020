@@ -128,6 +128,24 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 1637321507}
     m_Modifications:
+    - target: {fileID: 606250973, guid: 0f21606fcd94b204ea32bacffaaef8a7, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 1073690311}
+    - target: {fileID: 606250973, guid: 0f21606fcd94b204ea32bacffaaef8a7, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: StartGame
+      objectReference: {fileID: 0}
+    - target: {fileID: 7139920662521145257, guid: 0f21606fcd94b204ea32bacffaaef8a7,
+        type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 1073690311}
+    - target: {fileID: 7139920662521145257, guid: 0f21606fcd94b204ea32bacffaaef8a7,
+        type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: OnRestart
+      objectReference: {fileID: 0}
     - target: {fileID: 8890356638937959208, guid: 0f21606fcd94b204ea32bacffaaef8a7,
         type: 3}
       propertyPath: m_AnchoredPosition.x
