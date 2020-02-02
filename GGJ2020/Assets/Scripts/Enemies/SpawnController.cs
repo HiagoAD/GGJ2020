@@ -15,6 +15,8 @@ public class SpawnController : MonoBehaviour
 
     [SerializeField] Enemy[] enemies = null;
 
+    private bool gameRunning;
+
     private float spawnCount;
 
     private float lenght;
@@ -25,10 +27,7 @@ public class SpawnController : MonoBehaviour
     {
         lenght = transform.localScale.y/2;
 
-        player = GameManager.Instance.GetPlayer().transform;
-
-        if(!player)
-            Debug.LogError("MISSING PLAYER!!!");
+        gameRunning = true;
 
         //initialize all the list of enemies
         for (int i = 0; i < enemies.Length; i++)
@@ -37,13 +36,23 @@ public class SpawnController : MonoBehaviour
         }
     }
 
+    private void Start()
+    {
+        player = GameManager.Instance.GetPlayer().transform;
+        GameManager.Instance.OnRestartGame += Restart;
+        GameManager.Instance.OnGameOver += GameOver;
+    }
+
     // Update is called once per frame
     void Update()
     {
-        if(spawnCount <= Time.time)
+        if (gameRunning)
         {
-            Spawn();
-            spawnCount = Time.time + spawnDelay;
+            if (spawnCount <= Time.time)
+            {
+                Spawn();
+                spawnCount = Time.time + spawnDelay;
+            }
         }
 
 #if UNITY_EDITOR
@@ -83,5 +92,13 @@ public class SpawnController : MonoBehaviour
         return spawned;
     }
 
+    private void GameOver()
+    {
+        gameRunning = false;
+    }
 
+    private void Restart()
+    {
+        gameRunning = true;
+    }
 }

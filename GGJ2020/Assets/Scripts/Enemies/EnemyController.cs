@@ -16,6 +16,7 @@ public class EnemyController : MonoBehaviour
     private Transform player;
     
     private bool alive;
+    private bool playerDead = false;
     private SpawnController spawner;    
     private int ID; //Verify what type this enemy is
 
@@ -26,8 +27,13 @@ public class EnemyController : MonoBehaviour
         this.spawner = spawner;
         this.ID = ID;
         this.player = player;
+
+        GameManager.Instance.OnGameOver += GameOver;
+        GameManager.Instance.OnRestartGame += Restart;
+
         Reset();
     }
+    
     
     void Update()
     {
@@ -39,6 +45,9 @@ public class EnemyController : MonoBehaviour
 
     private void Behaviour()
     {
+        if (playerDead)
+            return;
+
         if(distanceToFollowPlayer >= Vector2.Distance(transform.position, player.position))
             transform.position = Vector3.MoveTowards(transform.position, player.position, moveSpeed*Time.deltaTime);
         else
@@ -73,5 +82,16 @@ public class EnemyController : MonoBehaviour
         GameManager.Instance.RemoveEnemy(this);
         alive = false;
         transform.position = new Vector2 (1000, 1000);
+    }
+
+    private void GameOver()
+    {
+        playerDead = true;
+        //call animation idle
+    }
+
+    private void Restart()
+    {
+        Kill();
     }
 }

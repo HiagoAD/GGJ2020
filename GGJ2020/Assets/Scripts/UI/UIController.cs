@@ -13,29 +13,13 @@ public class UIController : MonoBehaviour
     private void Awake()
     {
         hearts = new List<Image>();
-        SetLife(3);
     }
 
-    void Update()
+    private void Start()
     {
-        if (Input.GetKeyDown(KeyCode.Q))
-            UpdateHP(0);
-        if (Input.GetKeyDown(KeyCode.W))
-            UpdateHP(1);
-        if (Input.GetKeyDown(KeyCode.E))
-            UpdateHP(2);
-        if (Input.GetKeyDown(KeyCode.R))
-            UpdateHP(3);
-        if (Input.GetKeyDown(KeyCode.X))
-            UpdateHP(10);
-    }
-
-    public void SetLife(int value)
-    {
-        for (int i = 0; i < value; i++)
-        {
-            hearts.Add(Instantiate(heart, heartsArea).GetComponent<Image>());
-        }
+        UpdateHP(GameManager.Instance.maxHp);
+        GameManager.Instance.PlayerHitted += UpdateHP;
+        GameManager.Instance.OnRestartGame += Restart;
     }
 
     public void UpdateHP(int hp)
@@ -60,5 +44,10 @@ public class UIController : MonoBehaviour
                     hearts[i].color += new Color(0, 0, 0, 1);
             }
         }
+    }
+
+    private void Restart()
+    {
+        UpdateHP(GameManager.Instance.maxHp);
     }
 }

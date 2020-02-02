@@ -4,11 +4,14 @@ using UnityEngine;
 
 public class InputManager : MonoBehaviour
 {
-    Player player = null;
+    private Player player = null;
+    private bool playerAlive = true;
 
     private void Start()
     {
         player = GameManager.Instance.GetPlayer();
+        GameManager.Instance.OnRestartGame += Restart;
+        GameManager.Instance.OnGameOver += GameOver;
     }
 
     // Update is called once per frame
@@ -16,11 +19,28 @@ public class InputManager : MonoBehaviour
     {
         if(Input.GetKeyDown(KeyCode.A) || Input.GetKeyDown(KeyCode.LeftArrow))
         {
-            player.Attack(-1);
+            if(playerAlive)
+                player.Attack(-1);
         }
-        if (Input.GetKeyDown(KeyCode.D) || Input.GetKeyDown(KeyCode.RightArrow))
+        else if (Input.GetKeyDown(KeyCode.D) || Input.GetKeyDown(KeyCode.RightArrow))
         {
-            player.Attack(1);
+            if (playerAlive)
+                player.Attack(1);
+        }
+        else if(Input.GetKeyDown(KeyCode.R))
+        {
+            GameManager.Instance.OnRestartGame();
         }
     }
+
+    private void GameOver()
+    {
+        playerAlive = false;
+    }
+
+    private void Restart()
+    {
+        playerAlive = true;
+    }
+
 }

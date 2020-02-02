@@ -5,6 +5,7 @@ using System;
 
 
 public delegate void NumbersChanged(int value);
+public delegate void GameState();
 
 public class GameManager : MonoBehaviour
 {
@@ -13,11 +14,19 @@ public class GameManager : MonoBehaviour
         get; private set;
     }
 
-    [SerializeField]
-    Player player = null;
+    [SerializeField] Player player = null;
+    [SerializeField] int playerHpMax = 3;
+
+    public int maxHp { get => playerHpMax; }
+
+    private int playerHp;
 
     public NumbersChanged OnScoreChanged;
     public NumbersChanged OnComboChanged;
+    public NumbersChanged PlayerHitted;
+
+    public GameState OnGameOver;
+    public GameState OnRestartGame;
 
 
     List<EnemyController> enemiesInstances = new List<EnemyController>();
@@ -61,6 +70,8 @@ public class GameManager : MonoBehaviour
         }
 
         Instance = this;
+
+        playerHp = playerHpMax;
     }
 
     public Player GetPlayer()
@@ -104,6 +115,11 @@ public class GameManager : MonoBehaviour
     public void PlayerHit()
     {
         Combo /= 2;
+        playerHp--;
+        PlayerHitted(playerHp);
+
+        if (playerHp == 0)
+            OnGameOver();
     }
 
     public void PlayerMissAttack()

@@ -5,12 +5,11 @@ using DG.Tweening;
 
 public class Player : MonoBehaviour
 {
-    [SerializeField]
-    public float attackThreshold;
-    [SerializeField]
-    public float correctAttackTime;
-    [SerializeField]
-    public float wrongAttackTime;
+    [SerializeField] public float attackThreshold;
+    [SerializeField] public float correctAttackTime;
+    [SerializeField] public float wrongAttackTime;
+
+    private Vector2 startPosition;
 
     public bool Attacking
     {
@@ -18,6 +17,17 @@ public class Player : MonoBehaviour
     }
 
     private EnemyController target;
+
+    private void Awake()
+    {
+        startPosition = transform.position;
+    }
+
+    private void Start()
+    {
+        GameManager.Instance.OnRestartGame += Restart;
+        GameManager.Instance.OnGameOver += GameOver;
+    }
 
     public void Attack(int direction)
     {
@@ -76,4 +86,16 @@ public class Player : MonoBehaviour
             GameManager.Instance.PlayerHit();
         }
     }
+
+    private void Restart()
+    {
+        transform.position = startPosition;
+    }
+
+    private void GameOver()
+    {
+        //call death animation
+    }
+
+
 }
