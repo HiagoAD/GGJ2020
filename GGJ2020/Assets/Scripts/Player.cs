@@ -58,6 +58,7 @@ public class Player : MonoBehaviour
     private void attackOutOfRange(int direction)
     {
         float animationTime = armature.animation.Play("punsh_miss", 1).totalTime;
+        SoundManager.Instance.PlayPlayerMiss();
         transform.DOMoveX(transform.position.x + (attackThreshold * Mathf.Sign(direction)), animationTime).onComplete = () =>
         {
             Attacking = false;
@@ -113,6 +114,7 @@ public class Player : MonoBehaviour
     {
         if(target && enemy == target.gameObject)
         {
+            SoundManager.Instance.PlayPlayerHit();
             enemy.GetComponent<EnemyController>().Hit(1);
             target = null;
             Attacking = false;
@@ -141,6 +143,7 @@ public class Player : MonoBehaviour
     {
         alive = false;
         armature.animation.Play("dying", 1);
+        SoundManager.Instance.PlayPlayerDied();
     }
 
 

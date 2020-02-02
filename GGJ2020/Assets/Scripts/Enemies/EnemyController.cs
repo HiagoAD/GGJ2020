@@ -90,6 +90,7 @@ public class EnemyController : MonoBehaviour
 
     public void OnEnemyAttackHit()
     {
+        SoundManager.Instance.PlayEnemyHit();
         GameManager.Instance.PlayerHit(this);
     }
 
@@ -121,13 +122,19 @@ public class EnemyController : MonoBehaviour
     {
         GameManager.Instance.RemoveEnemy(this, inGame);
         Alive = false;
-        Usable = false;
-        armature.animation.Play("death", 1);
-        armature.AddDBEventListener(EventObject.COMPLETE, (str, obj) =>
+        if (inGame)
         {
-            transform.position = new Vector2 (1000, 1000);
-            Usable = true;
-        });
+            Usable = false;
+            armature.animation.Play("death", 1);
+            armature.AddDBEventListener(EventObject.COMPLETE, (str, obj) =>
+            {
+                transform.position = new Vector2 (1000, 1000);
+                Usable = true;
+            });
+        } else
+        {
+            transform.position = new Vector2(1000, 1000);
+        }
     }
 
     private void GameOver()
