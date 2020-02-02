@@ -145,6 +145,10 @@ public class GameManager : MonoBehaviour
 
         if (playerHp == 0)
         {
+            var s = Score;
+            if (s > PlayerPrefs.GetInt("HighScore", 0))
+                PlayerPrefs.SetInt("HighScore", s);
+            PlayerPrefs.SetInt("Score", s);
             OnGameOver?.Invoke();
             OnLeaderBoard?.Invoke();
         }
