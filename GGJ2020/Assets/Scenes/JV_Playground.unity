@@ -747,40 +747,30 @@ PrefabInstance:
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 
       objectReference: {fileID: 296968749}
-    - target: {fileID: 1873642757190860280, guid: 0f21606fcd94b204ea32bacffaaef8a7,
+    - target: {fileID: 5289502625603991934, guid: 0f21606fcd94b204ea32bacffaaef8a7,
         type: 3}
       propertyPath: m_Alpha
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7139920662521145257, guid: 0f21606fcd94b204ea32bacffaaef8a7,
         type: 3}
-      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.size
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 7139920662521145257, guid: 0f21606fcd94b204ea32bacffaaef8a7,
-        type: 3}
-      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Mode
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 7139920662521145257, guid: 0f21606fcd94b204ea32bacffaaef8a7,
-        type: 3}
-      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_CallState
-      value: 2
-      objectReference: {fileID: 0}
-    - target: {fileID: 7139920662521145257, guid: 0f21606fcd94b204ea32bacffaaef8a7,
-        type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 
       objectReference: {fileID: 296968749}
-    - target: {fileID: 7139920662521145257, guid: 0f21606fcd94b204ea32bacffaaef8a7,
+    - target: {fileID: 7688435065234330560, guid: 0f21606fcd94b204ea32bacffaaef8a7,
         type: 3}
-      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
-      value: OnRestart
+      propertyPath: m_Alpha
+      value: 1
       objectReference: {fileID: 0}
-    - target: {fileID: 7139920662521145257, guid: 0f21606fcd94b204ea32bacffaaef8a7,
+    - target: {fileID: 8890356638937959208, guid: 0f21606fcd94b204ea32bacffaaef8a7,
         type: 3}
-      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_ObjectArgumentAssemblyTypeName
-      value: UnityEngine.Object, UnityEngine
+      propertyPath: m_AnchoredPosition.x
+      value: -0.000022888
+      objectReference: {fileID: 0}
+    - target: {fileID: 8890356638937959208, guid: 0f21606fcd94b204ea32bacffaaef8a7,
+        type: 3}
+      propertyPath: m_SizeDelta.x
+      value: 450.6
       objectReference: {fileID: 0}
     - target: {fileID: 8890356639090998508, guid: 0f21606fcd94b204ea32bacffaaef8a7,
         type: 3}

@@ -1,0 +1,23 @@
+fileFormatVersion: 2
+guid: fdfd9dd42f8beb44d8b59a113ac00b29
+TrueTypeFontImporter:
+  externalObjects: {}
+  serializedVersion: 4
+  fontSize: 16
+  forceTextureCase: -2
+  characterSpacing: 0
+  characterPadding: 1
+  includeFontData: 1
+  fontName: Gramophone NF
+  fontNames:
+  - Gramophone NF
+  fallbackFontReferences:
+  - {fileID: 12800000, guid: b02d3b2bbca8a6143ae28b20c1062617, type: 3}
+  customCharacters: 
+  fontRenderingMode: 0
+  ascentCalculationMode: 1
+  useLegacyBoundsCalculation: 0
+  shouldRoundAdvanceValue: 1
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
