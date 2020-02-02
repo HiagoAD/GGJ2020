@@ -15,6 +15,8 @@ public class Player : MonoBehaviour
 
     private Vector2 startPosition;
 
+    private bool alive = true;
+
 
     public bool Attacking
     {
@@ -26,8 +28,7 @@ public class Player : MonoBehaviour
 
     private void Awake()
     {
-        armature = GetComponent<UnityArmatureComponent>();
-        armature.animation.Play("idle");
+
 
         playerAttack.SetPlayerScript(this);
         playerAttack.gameObject.SetActive(false);
@@ -45,8 +46,11 @@ public class Player : MonoBehaviour
         transform.DOMove(enemy.transform.position, animationTime).onComplete = () =>
         {
             Attacking = false;
-            armature.animation.Play("idle");
             playerAttack.gameObject.SetActive(false);
+            if(alive)
+            {
+                armature.animation.Play("idle");
+            }
         };
         
     }
@@ -57,8 +61,12 @@ public class Player : MonoBehaviour
         transform.DOMoveX(transform.position.x + (attackThreshold * Mathf.Sign(direction)), animationTime).onComplete = () =>
         {
             Attacking = false;
-            armature.animation.Play("idle");
             playerAttack.gameObject.SetActive(false);
+            if(alive)
+            {
+                armature.animation.Play("idle");
+            }
+
         };
     }
 
@@ -66,6 +74,9 @@ public class Player : MonoBehaviour
     {
         GameManager.Instance.OnRestartGame += Restart;
         GameManager.Instance.OnGameOver += GameOver;
+
+        armature = GetComponent<UnityArmatureComponent>();
+        armature.animation.Play("idle");
     }
 
     public void Attack(int direction)
@@ -122,10 +133,13 @@ public class Player : MonoBehaviour
     private void Restart()
     {
         transform.position = startPosition;
+        alive = true;
+        armature.animation.Play("idle");
     }
 
     private void GameOver()
     {
+        alive = false;
         armature.animation.Play("dying", 1);
     }
 

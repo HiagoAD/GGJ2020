@@ -81,7 +81,7 @@ public class SpawnController : MonoBehaviour
         
         foreach (EnemyController controller in enemies[id].buffer)
         {
-            if(!controller.Alive)
+            if(!controller.Alive && controller.Usable)
             {
                 controller.Restart(new Vector3(xPosition, yPosition, yPosition));
                 GameManager.Instance.RegistryEnemy(controller);

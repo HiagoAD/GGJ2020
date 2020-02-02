@@ -22,6 +22,7 @@ public class EnemyController : MonoBehaviour
     private UnityArmatureComponent armature;
 
     public bool Alive { get; private set; }
+    public bool Usable { get; private set; }
 
     public void Init(int ID, Player player)
     {
@@ -120,10 +121,12 @@ public class EnemyController : MonoBehaviour
     {
         GameManager.Instance.RemoveEnemy(this, inGame);
         Alive = false;
+        Usable = false;
         armature.animation.Play("death", 1);
         armature.AddDBEventListener(EventObject.COMPLETE, (str, obj) =>
         {
             transform.position = new Vector2 (1000, 1000);
+            Usable = true;
         });
     }
 
