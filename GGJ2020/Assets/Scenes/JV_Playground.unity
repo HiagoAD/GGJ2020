@@ -290,7 +290,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   player: {fileID: 1736171619}
-  playerHpMax: 3
 --- !u!4 &296968750
 Transform:
   m_ObjectHideFlags: 0
@@ -749,7 +748,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 33b39c73dfa120842a807a6fdfb3277b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  spawnDelay: 3
+  spawnDelay: 0.75
   enemies:
   - main: {fileID: 7935821607203804574, guid: 2cb8501a067d12d4da0da2ae238544c9, type: 3}
     buffer: []

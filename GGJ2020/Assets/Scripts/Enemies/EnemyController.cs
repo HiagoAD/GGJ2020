@@ -77,9 +77,9 @@ public class EnemyController : MonoBehaviour
         hp = hpMax;
     }
 
-    private void Kill()
+    private void Kill(bool inGame = true)
     {
-        GameManager.Instance.RemoveEnemy(this);
+        GameManager.Instance.RemoveEnemy(this, inGame);
         alive = false;
         transform.position = new Vector2 (1000, 1000);
     }
@@ -92,6 +92,7 @@ public class EnemyController : MonoBehaviour
 
     private void Restart()
     {
-        Kill();
+        playerDead = false;
+        Kill(false);
     }
 }

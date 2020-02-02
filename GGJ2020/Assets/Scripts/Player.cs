@@ -82,7 +82,8 @@ public class Player : MonoBehaviour
             Attacking = false;
         } else
         {
-            GetComponent<SpriteRenderer>().DOColor(new Color(255, 255, 255, 0), 1f).SetEase(Ease.Flash, 8);
+            GetComponent<SpriteRenderer>().DOColor(new Color(255, 255, 255, 0), 1f).SetEase(Ease.Flash, 8)
+            .OnComplete(()=>GetComponent<SpriteRenderer>().color += new Color(0, 0, 0, 1));
             GameManager.Instance.PlayerHit();
         }
     }

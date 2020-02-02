@@ -15,7 +15,7 @@ public class GameManager : MonoBehaviour
     }
 
     [SerializeField] Player player = null;
-    [SerializeField] int playerHpMax = 3;
+    [SerializeField] readonly int playerHpMax = 3;
 
     public int maxHp { get => playerHpMax; }
 
@@ -72,6 +72,7 @@ public class GameManager : MonoBehaviour
         Instance = this;
 
         playerHp = playerHpMax;
+        OnRestartGame += Restart;
     }
 
     public Player GetPlayer()
@@ -84,12 +85,15 @@ public class GameManager : MonoBehaviour
         enemiesInstances.Add(enemy);
     }
 
-    public void RemoveEnemy(EnemyController enemy)
+    public void RemoveEnemy(EnemyController enemy, bool inGame = true)
     {
         enemiesInstances.Remove(enemy);
 
-        Combo++;
-        Score += enemy.Score * Combo;
+        if(inGame)
+        {
+            Combo++;
+            Score += enemy.Score * Combo;
+        }
     }
 
     public EnemyController GetEnemyTarget(Vector3 position, int direction)
@@ -126,5 +130,13 @@ public class GameManager : MonoBehaviour
     {
         Combo -= 3;
         Combo = Combo > 0 ? Combo : 0;
+        Debug.Log(Combo);
+    }
+
+    private void Restart()
+    {
+        playerHp = playerHpMax;
+        _combo = 0;
+        _score = 0;
     }
 }

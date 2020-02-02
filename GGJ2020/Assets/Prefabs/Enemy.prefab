@@ -144,5 +144,5 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   hpMax: 1
-  moveSpeed: 1
+  moveSpeed: 4
   distanceToFollowPlayer: 3
