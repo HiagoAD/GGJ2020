@@ -7,6 +7,7 @@ public class UIController : MonoBehaviour
 {
     [SerializeField] Transform heartsArea;
     [SerializeField] GameObject heart;
+    [SerializeField] Text highScore;
 
     [Header("Canvas groups")]
     [SerializeField] CanvasGroup mainMenu;
@@ -71,6 +72,7 @@ public class UIController : MonoBehaviour
 
     private void StartGame()
     {
+        highScore.text = PlayerPrefs.GetInt("HighScore", 0).ToString();
         mainMenu.alpha = 0;
         mainMenu.blocksRaycasts = false;
         gameUI.alpha = 1;
