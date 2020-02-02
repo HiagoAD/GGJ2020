@@ -10,6 +10,8 @@ public class EnemyController : MonoBehaviour
     [SerializeField] float moveSpeed = 1;
     [SerializeField] float distanceToFollowPlayer = 3;
 
+    public int Score { get { return hpMax * 10; } }
+
     private int hp;
     private Transform player;
     

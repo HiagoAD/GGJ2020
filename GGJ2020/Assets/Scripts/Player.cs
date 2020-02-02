@@ -42,6 +42,7 @@ public class Player : MonoBehaviour
         else
         {
             attackOutOfRange(direction);
+            GameManager.Instance.PlayerMissAttack();
         }
     }
 
@@ -72,6 +73,7 @@ public class Player : MonoBehaviour
         } else
         {
             GetComponent<SpriteRenderer>().DOColor(new Color(255, 255, 255, 0), 1f).SetEase(Ease.Flash, 8);
+            GameManager.Instance.PlayerHit();
         }
     }
 }

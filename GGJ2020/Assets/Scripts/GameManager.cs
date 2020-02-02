@@ -1,6 +1,10 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using System;
+
+
+public delegate void NumbersChanged(int value);
 
 public class GameManager : MonoBehaviour
 {
@@ -12,9 +16,42 @@ public class GameManager : MonoBehaviour
     [SerializeField]
     Player player = null;
 
+    public NumbersChanged OnScoreChanged;
+    public NumbersChanged OnComboChanged;
+
 
     List<EnemyController> enemiesInstancesLeft = new List<EnemyController>();
     List<EnemyController> enemiesInstancesRight = new List<EnemyController>();
+
+
+    int _combo = 0;
+    int _score = 0;
+
+    public int Combo
+    {
+        get
+        {
+            return _combo;
+        }
+        set
+        {
+            _combo = value;
+            OnComboChanged(_combo);
+        }
+    }
+
+    public int Score
+    {
+        get
+        {
+            return _score;
+        }
+        set
+        {
+            _score = value;
+            OnScoreChanged(_score);
+        }
+    }
 
     private void Awake()
     {
@@ -53,6 +90,9 @@ public class GameManager : MonoBehaviour
         {
             enemiesInstancesLeft.Remove(enemy);
         }
+
+        Combo++;
+        Score += enemy.Score * Combo;
     }
 
     public EnemyController GetEnemyTarget(Vector3 position, int direction)
@@ -77,5 +117,16 @@ public class GameManager : MonoBehaviour
 
         if (enemies.Count > 0) return enemies[0];
         else return null;
+    }
+
+    public void PlayerHit()
+    {
+        Combo /= 2;
+    }
+
+    public void PlayerMissAttack()
+    {
+        Combo -= 3;
+        Combo = Combo > 0 ? Combo : 0;
     }
 }
