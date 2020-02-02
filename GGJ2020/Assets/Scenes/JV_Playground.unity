@@ -479,6 +479,9 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1604821713}
+  - component: {fileID: 1604821716}
+  - component: {fileID: 1604821715}
+  - component: {fileID: 1604821714}
   m_Layer: 5
   m_Name: ComboController
   m_TagString: Untagged
@@ -506,6 +509,42 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
+--- !u!114 &1604821714
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1604821712}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: de50987f74257eb43b546c3666825f24, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  group: {fileID: 1284191499}
+  canvasGroup: {fileID: 1604821715}
+  value: {fileID: 2122252144}
+  combo: {fileID: 2135931317}
+--- !u!225 &1604821715
+CanvasGroup:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1604821712}
+  m_Enabled: 1
+  m_Alpha: 1
+  m_Interactable: 0
+  m_BlocksRaycasts: 0
+  m_IgnoreParentGroups: 0
+--- !u!222 &1604821716
+CanvasRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1604821712}
+  m_CullTransparentMesh: 0
 --- !u!1 &2122252142
 GameObject:
   m_ObjectHideFlags: 0
@@ -556,7 +595,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_Color: {r: 1, g: 0.8352941, b: 0, a: 1}
   m_RaycastTarget: 1
   m_OnCullStateChanged:
     m_PersistentCalls:
@@ -600,7 +639,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!114 &2134752584
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -862,6 +901,31 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 1162119314}
     m_Modifications:
+    - target: {fileID: 8890356638937959211, guid: 0f21606fcd94b204ea32bacffaaef8a7,
+        type: 3}
+      propertyPath: m_Spacing
+      value: 19.9
+      objectReference: {fileID: 0}
+    - target: {fileID: 8890356638937959211, guid: 0f21606fcd94b204ea32bacffaaef8a7,
+        type: 3}
+      propertyPath: m_ChildAlignment
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 8890356638937959211, guid: 0f21606fcd94b204ea32bacffaaef8a7,
+        type: 3}
+      propertyPath: m_ChildScaleWidth
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8890356638937959211, guid: 0f21606fcd94b204ea32bacffaaef8a7,
+        type: 3}
+      propertyPath: m_ChildForceExpandWidth
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8890356638937959211, guid: 0f21606fcd94b204ea32bacffaaef8a7,
+        type: 3}
+      propertyPath: m_ChildForceExpandHeight
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 8890356639090998508, guid: 0f21606fcd94b204ea32bacffaaef8a7,
         type: 3}
       propertyPath: m_LocalPosition.x
