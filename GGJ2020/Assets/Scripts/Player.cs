@@ -38,7 +38,8 @@ public class Player : MonoBehaviour
 
     private void attackOnRange(EnemyController enemy)
     {
-        float animationTime = armature.animation.Play("punsh", 1).totalTime;
+        int animationIndex = Random.Range(0, 4);
+        float animationTime = armature.animation.Play("punsh_" + animationIndex, 1).totalTime;
         playerAttack.gameObject.SetActive(true);
 
         transform.DOMove(enemy.transform.position, animationTime).onComplete = () =>
@@ -52,7 +53,7 @@ public class Player : MonoBehaviour
 
     private void attackOutOfRange(int direction)
     {
-        float animationTime = armature.animation.Play("punsh", 1).totalTime;
+        float animationTime = armature.animation.Play("punsh_miss", 1).totalTime;
         transform.DOMoveX(transform.position.x + (attackThreshold * Mathf.Sign(direction)), animationTime).onComplete = () =>
         {
             Attacking = false;
@@ -125,7 +126,7 @@ public class Player : MonoBehaviour
 
     private void GameOver()
     {
-        //call death animation
+        armature.animation.Play("dying", 1);
     }
 
 
