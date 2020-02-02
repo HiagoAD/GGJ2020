@@ -94,15 +94,19 @@ public class EnemyController : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        if (collision.CompareTag("Player"))
+        if(Alive)
         {
-            armature.animation.Play("attack", 1);
-            enemyAttack.gameObject.SetActive(true);
-            armature.AddDBEventListener(EventObject.COMPLETE, (str, eventObj) =>
+            if (collision.CompareTag("Player"))
             {
-                armature.animation.Play("idle");
-                enemyAttack.gameObject.SetActive(false);
-            });
+                armature.animation.Play("attack", 1);
+                enemyAttack.gameObject.SetActive(true);
+                armature.AddDBEventListener(EventObject.COMPLETE, (str, eventObj) =>
+                {
+                    armature.animation.Play("idle");
+                    enemyAttack.gameObject.SetActive(false);
+                });
+            }
+
         }
     }
 
@@ -116,7 +120,11 @@ public class EnemyController : MonoBehaviour
     {
         GameManager.Instance.RemoveEnemy(this, inGame);
         Alive = false;
-        transform.position = new Vector2 (1000, 1000);
+        armature.animation.Play("death", 1);
+        armature.AddDBEventListener(EventObject.COMPLETE, (str, obj) =>
+        {
+            transform.position = new Vector2 (1000, 1000);
+        });
     }
 
     private void GameOver()
