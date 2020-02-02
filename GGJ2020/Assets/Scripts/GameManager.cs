@@ -25,6 +25,7 @@ public class GameManager : MonoBehaviour
 
     int _combo = 0;
     int _score = 0;
+    int life = 3;
 
     public int Combo
     {
@@ -89,8 +90,8 @@ public class GameManager : MonoBehaviour
         });
         enemiesOnPlayerSide.Sort((enemyA, enemyB) =>
         {
-            float distanceA = (enemyA.transform.position - position).magnitude;
-            float distanceB = (enemyB.transform.position - position).magnitude;
+            float distanceA = (enemyA.transform.position.x - position.x);
+            float distanceB = (enemyB.transform.position.x - position.x);
 
             if (distanceA > distanceB) return 1;
             else if (distanceA == distanceB) return 0;
@@ -101,9 +102,12 @@ public class GameManager : MonoBehaviour
         else return null;
     }
 
-    public void PlayerHit()
+    public void PlayerHit(EnemyController hitter)
     {
         Combo /= 2;
+        Debug.Log("Life " + --life);
+
+        player.Hit(hitter.transform);
     }
 
     public void PlayerMissAttack()

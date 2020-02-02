@@ -19,13 +19,13 @@ public class SpawnController : MonoBehaviour
 
     private float lenght;
 
-    private Transform player;
+    private Player player;
 
     private void Awake()
     {
         lenght = transform.localScale.y/2;
 
-        player = GameManager.Instance.GetPlayer().transform;
+        player = GameManager.Instance.GetPlayer();
 
         if(!player)
             Debug.LogError("MISSING PLAYER!!!");
@@ -77,7 +77,7 @@ public class SpawnController : MonoBehaviour
 
         EnemyController spawned = Instantiate(enemies[id].main, new Vector3(xPosition, yPosition, yPosition), Quaternion.identity);
 
-        spawned.Init(this, id, player);
+        spawned.Init(id, player);
         GameManager.Instance.RegistryEnemy(spawned);
 
         return spawned;

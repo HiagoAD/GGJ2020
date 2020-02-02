@@ -1,16 +1,17 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 using DG.Tweening;
+using DragonBones;
+using Transform = UnityEngine.Transform;
 
+[RequireComponent(typeof(UnityArmatureComponent))]
 public class Player : MonoBehaviour
 {
     [SerializeField]
-    public float attackThreshold;
+    private float attackThreshold;
     [SerializeField]
-    public float correctAttackTime;
+    private PlayerAttack playerAttack;
     [SerializeField]
-    public float wrongAttackTime;
+    private float hitKnockback;
 
     public bool Attacking
     {
@@ -18,6 +19,42 @@ public class Player : MonoBehaviour
     }
 
     private EnemyController target;
+    UnityArmatureComponent armature;
+
+    private void Awake()
+    {
+        armature = GetComponent<UnityArmatureComponent>();
+        armature.animation.Play("idle");
+
+        playerAttack.SetPlayerScript(this);
+        playerAttack.gameObject.SetActive(false);
+    }
+
+
+    private void attackOnRange(EnemyController enemy)
+    {
+        float animationTime = armature.animation.Play("punsh", 1).totalTime;
+        playerAttack.gameObject.SetActive(true);
+
+        transform.DOMove(enemy.transform.position, animationTime).onComplete = () =>
+        {
+            Attacking = false;
+            armature.animation.Play("idle");
+            playerAttack.gameObject.SetActive(false);
+        };
+        
+    }
+
+    private void attackOutOfRange(int direction)
+    {
+        float animationTime = armature.animation.Play("punsh", 1).totalTime;
+        transform.DOMoveX(transform.position.x + (attackThreshold * Mathf.Sign(direction)), animationTime).onComplete = () =>
+        {
+            Attacking = false;
+            armature.animation.Play("idle");
+            playerAttack.gameObject.SetActive(false);
+        };
+    }
 
     public void Attack(int direction)
     {
@@ -25,16 +62,19 @@ public class Player : MonoBehaviour
 
         Attacking = true;
 
+        transform.localScale = new Vector3(Mathf.Abs(transform.localScale.x) * Mathf.Sign(direction), transform.localScale.y, transform.localScale.z);
+
         EnemyController enemy = GameManager.Instance.GetEnemyTarget(transform.position, direction);
-        
-        if(enemy)
+
+        if (enemy)
         {
-            Vector3 distance = enemy.transform.position - transform.position;
-            if(distance.magnitude < attackThreshold)
+            float distance = Mathf.Abs(enemy.transform.position.x - transform.position.x);
+            if (distance < attackThreshold)
             {
                 attackOnRange(enemy);
                 target = enemy;
-            } else
+            }
+            else
             {
                 attackOutOfRange(direction);
             }
@@ -46,34 +86,24 @@ public class Player : MonoBehaviour
         }
     }
 
-    private void attackOnRange(EnemyController enemy)
+    public void OnPlayerAttackHit(GameObject enemy)
     {
-        transform.DOMove(enemy.transform.position, correctAttackTime).onComplete = () =>
+        if(target && enemy == target.gameObject)
         {
-            Attacking = false;
-        };
-        
-    }
-
-    private void attackOutOfRange(int direction)
-    {
-        transform.DOMoveX(transform.position.x + (attackThreshold * Mathf.Sign(direction)), wrongAttackTime).onComplete = () =>
-        {
-            Attacking = false;
-        };
-    }
-
-    private void OnTriggerEnter2D(Collider2D collider)
-    {
-        if (Attacking && target && collider.gameObject == target.gameObject)
-        {
-            collider.gameObject.GetComponent<EnemyController>().Hit(1);
+            enemy.GetComponent<EnemyController>().Hit(1);
             target = null;
             Attacking = false;
+        }
+    }
+
+    public void Hit(Transform hitterTransform)
+    {
+        if(hitterTransform.position.x > transform.position.x)
+        {
+            transform.position -= Vector3.right * hitKnockback; 
         } else
         {
-            GetComponent<SpriteRenderer>().DOColor(new Color(255, 255, 255, 0), 1f).SetEase(Ease.Flash, 8);
-            GameManager.Instance.PlayerHit();
+            transform.position += Vector3.right * hitKnockback;
         }
     }
 }
