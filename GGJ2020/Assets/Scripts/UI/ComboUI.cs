@@ -48,7 +48,7 @@ public class ComboUI : MonoBehaviour
     {
         if (value <= 0)
         {
-            this.value.text = "failed";
+            this.value.text = "MISS";
             BadAnimation();
         }
         else
