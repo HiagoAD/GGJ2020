@@ -48,9 +48,9 @@ public class EnemyController : MonoBehaviour
         }
     }
 
-    public void Restart(float offset)
+    public void Restart(Vector3 position)
     {
-        transform.position = spawner.transform.position + Vector3.up*offset;
+        transform.position = position;
         Reset();
     }
 

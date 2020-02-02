@@ -20,8 +20,7 @@ public class GameManager : MonoBehaviour
     public NumbersChanged OnComboChanged;
 
 
-    List<EnemyController> enemiesInstancesLeft = new List<EnemyController>();
-    List<EnemyController> enemiesInstancesRight = new List<EnemyController>();
+    List<EnemyController> enemiesInstances = new List<EnemyController>();
 
 
     int _combo = 0;
@@ -71,25 +70,12 @@ public class GameManager : MonoBehaviour
 
     public void RegistryEnemy(EnemyController enemy)
     {
-        if(enemy.transform.position.x > player.transform.position.x)
-        {
-            enemiesInstancesRight.Add(enemy);
-        } else
-        {
-            enemiesInstancesLeft.Add(enemy);
-        }
+        enemiesInstances.Add(enemy);
     }
 
     public void RemoveEnemy(EnemyController enemy)
     {
-        if (enemy.transform.position.x > player.transform.position.x)
-        {
-            enemiesInstancesRight.Remove(enemy);
-        }
-        else
-        {
-            enemiesInstancesLeft.Remove(enemy);
-        }
+        enemiesInstances.Remove(enemy);
 
         Combo++;
         Score += enemy.Score * Combo;
@@ -97,25 +83,21 @@ public class GameManager : MonoBehaviour
 
     public EnemyController GetEnemyTarget(Vector3 position, int direction)
     {
-        List<EnemyController> enemies;
-        if(direction > 0)
+        List<EnemyController> enemiesOnPlayerSide = enemiesInstances.FindAll(enemie =>
         {
-            enemies = enemiesInstancesRight;
-        } else
-        {
-            enemies = enemiesInstancesLeft;
-        }
-
-        enemies.Sort((enemyA, enemyB) =>
+            return (direction > 0 && enemie.transform.position.x > position.x) || (direction < 0 && enemie.transform.position.x < position.x);
+        });
+        enemiesOnPlayerSide.Sort((enemyA, enemyB) =>
         {
             float distanceA = (enemyA.transform.position - position).magnitude;
             float distanceB = (enemyB.transform.position - position).magnitude;
+
             if (distanceA > distanceB) return 1;
             else if (distanceA == distanceB) return 0;
             else return -1;
         });
 
-        if (enemies.Count > 0) return enemies[0];
+        if (enemiesOnPlayerSide.Count > 0) return enemiesOnPlayerSide[0];
         else return null;
     }
 

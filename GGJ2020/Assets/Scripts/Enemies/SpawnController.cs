@@ -8,7 +8,7 @@ public class SpawnController : MonoBehaviour
     struct Enemy
     {
         public EnemyController main;
-        [HideInInspector] public List<GameObject> buffer;
+        [HideInInspector] public List<EnemyController> buffer;
     }
 
     [SerializeField] float spawnDelay = 1;
@@ -33,7 +33,7 @@ public class SpawnController : MonoBehaviour
         //initialize all the list of enemies
         for (int i = 0; i < enemies.Length; i++)
         {
-            enemies[i].buffer = new List<GameObject>();
+            enemies[i].buffer = new List<EnemyController>();
         }
     }
 
@@ -46,38 +46,41 @@ public class SpawnController : MonoBehaviour
             spawnCount = Time.time + spawnDelay;
         }
 
+#if UNITY_EDITOR
         if (Input.GetKeyDown(KeyCode.Space))
             Spawn();
+#endif
     }
 
     private void Spawn()
     {
         int enemyType = Random.Range(0, enemies.Length);
 
-        GameObject spawned = TryGetEnemy(enemyType);
+        EnemyController spawned = TryGetEnemy(enemyType);
         enemies[enemyType].buffer.Add(spawned);
     }
 
-    private GameObject TryGetEnemy(int id)
+    private EnemyController TryGetEnemy(int id)
     {
-        float offsetPostion = Random.Range(-lenght, lenght);
+        float yPosition = Random.Range(-lenght, lenght) + transform.position.y;
+        float xPosition = Camera.main.ScreenToWorldPoint(new Vector3(Random.value > 0.5 ? Screen.width : 0, 0, 0)).x;
         
-        foreach (var enemy in enemies[id].buffer)
+        foreach (EnemyController controller in enemies[id].buffer)
         {
-            var controller = enemy.GetComponent<EnemyController>();
             if(!controller.Alive)
             {
-                controller.Restart(offsetPostion);
-                return enemy;
+                controller.Restart(new Vector3(xPosition, yPosition, yPosition));
+                GameManager.Instance.RegistryEnemy(controller);
+                return controller;
             }
         }
 
-        EnemyController spawned = Instantiate(enemies[id].main, transform.position + Vector3.up*offsetPostion, Quaternion.identity);
+        EnemyController spawned = Instantiate(enemies[id].main, new Vector3(xPosition, yPosition, yPosition), Quaternion.identity);
 
-        spawned.GetComponent<EnemyController>().Init(this, id, player);
+        spawned.Init(this, id, player);
         GameManager.Instance.RegistryEnemy(spawned);
 
-        return spawned.gameObject;
+        return spawned;
     }
 
 
